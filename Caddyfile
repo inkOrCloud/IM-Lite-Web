@@ -1,0 +1,22 @@
+{
+    auto_https off
+    log {
+	output stdout
+    }
+}
+
+:8088 {
+	handle /api/* {
+		reverse_proxy ${BACKEND_HOST}
+	}
+	handle /ws-chat {
+		reverse_proxy ${BACKEND_HOST}
+	}
+	handle {
+		root * dist
+		try_files {path} /index.html
+		file_server {
+			index index.html
+		}
+	}
+}
